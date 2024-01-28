@@ -47,8 +47,8 @@ public class ItemServiceImpl implements ItemService {
         }
         return items;
     }
-    public List<Item> getAllItem(){
-        return itemRepository.findAll();
+    public List<Item> getAllItemWithCategory(Long idCategory){
+        return itemRepository.getAllItemWithCategoryId(idCategory);
     }
 
 }

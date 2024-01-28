@@ -10,6 +10,7 @@ import com.example.shop.Service.DescriptionItemService;
 import com.example.shop.Service.DiscountService;
 import com.example.shop.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +47,11 @@ public class ItemController {
         }
         return itemDTOS;
     }
-    @GetMapping("get/all")
-    public List<ItemDTO> getAllItem(){
+
+    @GetMapping("get/all/{idCategory}")
+    public List<ItemDTO> getAllItem(@PathVariable Long idCategory){
         List<ItemDTO> itemDTOS = new ArrayList<>();
-        List<Item> items = itemService.getAllItem();
+        List<Item> items = itemService.getAllItemWithCategory(idCategory);
         for(Item item : items){
             itemDTOS.add(mapperDTO(item));
         }
