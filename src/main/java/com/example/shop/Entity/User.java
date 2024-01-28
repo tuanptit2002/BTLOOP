@@ -1,5 +1,6 @@
 package com.example.shop.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,7 +16,10 @@ public class User {
     private String email;
     private String password;
     @OneToOne
+    @JsonIgnore
     private Address address;
     @ManyToOne
     private Role role;
+    @OneToOne
+    private Cart cart;
 }

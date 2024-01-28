@@ -2,14 +2,14 @@ package com.example.shop.Service.Implement;
 
 import com.example.shop.Entity.Item;
 import com.example.shop.Repository.ItemRepository;
-import com.example.shop.Service.CategoryService;
-import com.example.shop.Service.DescriptionItemService;
-import com.example.shop.Service.DiscountService;
-import com.example.shop.Service.ItemService;
+import com.example.shop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -24,6 +24,9 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     DescriptionItemService descriptionItemService;
 
+    @Autowired
+    CartItemService  cartItemService;
+
     @Override
     public ResponseEntity<?> create(Item item){
         itemRepository.save(item);
@@ -34,4 +37,18 @@ public class ItemServiceImpl implements ItemService {
     public Item getById(Long idItem){
         return itemRepository.getItemById(idItem);
     }
+    @Override
+    public List<Item> getAllItemInCart(Long id) {
+        List<Long> idItems  = cartItemService.getFullIdItem(id);
+        List<Item> items = new ArrayList<>();
+        for (Long idItem : idItems){
+            Item item = getById(idItem);
+            items.add(item);
+        }
+        return items;
+    }
+    public List<Item> getAllItem(){
+        return itemRepository.findAll();
+    }
+
 }

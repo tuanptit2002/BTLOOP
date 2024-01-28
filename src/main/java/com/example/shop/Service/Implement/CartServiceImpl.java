@@ -1,6 +1,7 @@
 package com.example.shop.Service.Implement;
 
 import com.example.shop.Entity.Cart;
+import com.example.shop.Entity.CartItem;
 import com.example.shop.Entity.Item;
 import com.example.shop.Repository.CartRepository;
 import com.example.shop.Service.CartItemService;
@@ -10,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 
@@ -37,25 +35,20 @@ public class CartServiceImpl implements CartService {
     public ResponseEntity<?> addItemWithCart(Cart cart) {
         Cart cart1 = cartRepository.findCartById(cart.getId());
         if (cart1 != null) {
-            cart1.setItems(cart.getItems());
+//            cart1.setItems(cart.getItems());
         } else {
             return new ResponseEntity<>("data error", HttpStatus.NOT_ACCEPTABLE);
         }
-        cartRepository.save(cart1);
-        cartItemService.updateStatus(cart1.getId());
+        for (Item items : cart.getItems()) {
+            Item item = itemService.getById(items.getId());
+            CartItem cartItem = new CartItem();
+            cartItem.setCart(cart1);
+            cartItem.setItem(item);
+            cartItemService.create(cartItem);
+        }
         return new ResponseEntity<>("add Items success", HttpStatus.OK);
     }
 
-    @Override
-    public List<Item> getAllItemInCart(Long id) {
-        List<Long> idItems  = cartItemService.getFullIdItem(id);
-        List<Item> items = new ArrayList<>();
-        for (Long idItem : idItems){
-            Item item = itemService.getById(idItem);
-            items.add(item);
-        }
-        return items;
-    }
 
 //    @Override
 //    public Double total(Long id){
@@ -73,6 +66,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public ResponseEntity<?> buyAllItem(Long idCart) {
         cartItemService.buyAll(idCart);
-        return new ResponseEntity<>("Accept all",HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Accept all", HttpStatus.ACCEPTED);
+    }
+
+    Override
+    public Cart getById(Long idCart){
+        Cart cart = cartRepository.findCartById(idCart);
+        return cart;
     }
 }

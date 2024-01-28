@@ -1,5 +1,6 @@
 package com.example.shop.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,11 +13,10 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private User user;
 
     @ManyToMany
     @JoinTable(name = "cartItem", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JsonIgnore
     private List<Item> items;
 
 }

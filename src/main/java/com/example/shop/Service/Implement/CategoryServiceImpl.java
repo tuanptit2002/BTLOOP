@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -36,5 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseEntity<?> delete(Long id){
         categoryRepository.deleteById(id);
         return new ResponseEntity<>("Delete category success", HttpStatus.OK);
+    }
+
+    @Override
+    public List<Category> getAll(){
+        List<Category> categories = categoryRepository.findAll();
+        return categories;
     }
 }

@@ -1,9 +1,6 @@
 package com.example.shop.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -14,4 +11,8 @@ public class CartItem {
     private Long id;
     private String status;
     private long count;
+    @ManyToOne
+    private Cart cart;
+    @ManyToOne
+    private Item item;
 }

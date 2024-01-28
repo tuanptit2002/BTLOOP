@@ -18,6 +18,12 @@ public class CartItemServiceImpl implements CartItemService {
     CartItemRepository cartItemRepository;
 
     @Override
+    public void create(CartItem item){
+        item.setStatus("FALSE");
+        cartItemRepository.save(item);
+    }
+
+    @Override
     public void updateStatus(Long idCart){
         List<CartItem> items = cartItemRepository.getCartItemsByIdCart(idCart);
         for (CartItem item : items){

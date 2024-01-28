@@ -11,10 +11,10 @@ import com.example.shop.Service.DiscountService;
 import com.example.shop.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/item")
@@ -37,6 +37,24 @@ public class ItemController {
         return itemService.create(mapper(itemDTO));
     }
 
+    @GetMapping("/items/cart/{idCart}")
+    public List<ItemDTO> getAllInCart(@PathVariable Long idCart){
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        List<Item> items = itemService.getAllItemInCart(idCart);
+        for(Item item : items){
+            itemDTOS.add(mapperDTO(item));
+        }
+        return itemDTOS;
+    }
+    @GetMapping("get/all")
+    public List<ItemDTO> getAllItem(){
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        List<Item> items = itemService.getAllItem();
+        for(Item item : items){
+            itemDTOS.add(mapperDTO(item));
+        }
+        return itemDTOS;
+    }
     private Item mapper(ItemDTO itemDTO){
         Item item = new Item();
         item.setId(itemDTO.getId());
@@ -60,5 +78,13 @@ public class ItemController {
         }
 
         return item;
+    }
+    private ItemDTO mapperDTO(Item item){
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setId(item.getId());
+        itemDTO.setName(item.getName());
+        itemDTO.setColor(item.getColor());
+        itemDTO.setImage(item.getImage());
+        return itemDTO;
     }
 }
