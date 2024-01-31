@@ -14,7 +14,6 @@ public class Address {
     private String description;
     @JsonIgnore
     @ManyToOne
-
     private City city;
     @JsonIgnore
     @ManyToOne
@@ -22,5 +21,7 @@ public class Address {
     @JsonIgnore
     @ManyToOne
     private Wards wards;
-
+    @OneToOne
+    @JsonIgnore
+    private User user;
 }

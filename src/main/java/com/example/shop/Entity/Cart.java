@@ -19,4 +19,7 @@ public class Cart {
     @JsonIgnore
     private List<Item> items;
 
+    @OneToOne
+    @JsonIgnore
+    private User user;
 }
