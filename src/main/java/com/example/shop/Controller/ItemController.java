@@ -87,6 +87,9 @@ public class ItemController {
         itemDTO.setName(item.getName());
         itemDTO.setColor(item.getColor());
         itemDTO.setImage(item.getImage());
+        itemDTO.setPrice(item.getPrice());
+        itemDTO.setSize(item.getSize());
+        itemDTO.setCount(item.getCount());
         return itemDTO;
     }
 }
