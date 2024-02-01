@@ -10,7 +10,6 @@ import com.example.shop.Service.DescriptionItemService;
 import com.example.shop.Service.DiscountService;
 import com.example.shop.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,30 +33,41 @@ public class ItemController {
     DescriptionItemService descriptionItemService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody ItemDTO itemDTO){
+    public ResponseEntity<?> create(@RequestBody ItemDTO itemDTO) {
         return itemService.create(mapper(itemDTO));
     }
 
     @GetMapping("/items/cart/{idCart}")
-    public List<ItemDTO> getAllInCart(@PathVariable Long idCart){
+    public List<ItemDTO> getAllInCart(@PathVariable Long idCart) {
         List<ItemDTO> itemDTOS = new ArrayList<>();
         List<Item> items = itemService.getAllItemInCart(idCart);
-        for(Item item : items){
+        for (Item item : items) {
             itemDTOS.add(mapperDTO(item));
         }
         return itemDTOS;
     }
 
     @GetMapping("get/all/{idCategory}")
-    public List<ItemDTO> getAllItem(@PathVariable Long idCategory){
+    public List<ItemDTO> getAllItem(@PathVariable Long idCategory) {
         List<ItemDTO> itemDTOS = new ArrayList<>();
         List<Item> items = itemService.getAllItemWithCategory(idCategory);
-        for(Item item : items){
+        for (Item item : items) {
             itemDTOS.add(mapperDTO(item));
         }
         return itemDTOS;
     }
-    private Item mapper(ItemDTO itemDTO){
+
+    @GetMapping("/get/all")
+    public List<ItemDTO> getAllItem() {
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        List<Item> items = itemService.getAll();
+        for (Item item : items) {
+            itemDTOS.add(mapperDTO(item));
+        }
+        return itemDTOS;
+    }
+
+    private Item mapper(ItemDTO itemDTO) {
         Item item = new Item();
         item.setId(itemDTO.getId());
         item.setName(itemDTO.getName());
@@ -66,22 +76,23 @@ public class ItemController {
         item.setSize(itemDTO.getSize());
         item.setCount(itemDTO.getCount());
         item.setImage(itemDTO.getImage());
-        if(itemDTO.getCategoryDTO() != null && itemDTO.getCategoryDTO().getId() != null){
+        if (itemDTO.getCategoryDTO() != null && itemDTO.getCategoryDTO().getId() != null) {
             Category category = categoryService.getById(itemDTO.getCategoryDTO().getId());
             item.setCategory(category);
         }
-        if(itemDTO.getDiscountDTO()!= null && itemDTO.getDiscountDTO().getId() != null){
+        if (itemDTO.getDiscountDTO() != null && itemDTO.getDiscountDTO().getId() != null) {
             Discount discount = discountService.getById(itemDTO.getDiscountDTO().getId());
             item.setDiscount(discount);
         }
-        if(itemDTO.getDescriptionItemDTO() != null && itemDTO.getDescriptionItemDTO().getId() != null){
+        if (itemDTO.getDescriptionItemDTO() != null && itemDTO.getDescriptionItemDTO().getId() != null) {
             DescriptionItem descriptionItem = descriptionItemService.getById(itemDTO.getDescriptionItemDTO().getId());
             item.setDescriptionItem(descriptionItem);
         }
 
         return item;
     }
-    private ItemDTO mapperDTO(Item item){
+
+    private ItemDTO mapperDTO(Item item) {
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setId(item.getId());
         itemDTO.setName(item.getName());

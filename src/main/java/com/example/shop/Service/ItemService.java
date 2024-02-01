@@ -14,4 +14,5 @@ public interface ItemService {
     public List<Item> getAllItemInCart(Long idCart);
 
     public List<Item> getAllItemWithCategory(Long idCategory);
+    public List<Item> getAll();
 }

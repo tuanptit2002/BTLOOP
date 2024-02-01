@@ -16,4 +16,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query("select it from Item as it where it.category.id = :id")
     List<Item> getAllItemWithCategoryId(@Param("id") Long id);
+    @Query("select it from Item as it")
+    List<Item>getAllItem();
 }

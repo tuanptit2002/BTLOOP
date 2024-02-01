@@ -42,20 +42,20 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest user) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
         User userNew = (User) authentication.getPrincipal();
         String jwt = jwtTokenUtil.generateToken(userNew);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAccess_token(jwt);
-        authenticationResponse.setUser_name(userNew.getName());
+        authenticationResponse.setFullName(userNew.getName());
         authenticationResponse.setEmail(userNew.getEmail());
         return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
     }
 
     private User mapper(UserDTO userDTO) {
         User user = new User();
-        user.setName(userDTO.getName());
+        user.setName(userDTO.getFullName());
         user.setPhone(userDTO.getPhone());
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));

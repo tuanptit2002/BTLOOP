@@ -50,5 +50,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAllItemWithCategory(Long idCategory){
         return itemRepository.getAllItemWithCategoryId(idCategory);
     }
+    @Override
+    public List<Item> getAll(){
+        return itemRepository.getAllItem();
+    }
 
 }

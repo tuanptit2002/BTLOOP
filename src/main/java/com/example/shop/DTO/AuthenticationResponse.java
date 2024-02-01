@@ -6,6 +6,6 @@ import lombok.Data;
 public class AuthenticationResponse {
 
     public String access_token;
-    private String user_name;
+    private String fullName;
     private String email;
 }
