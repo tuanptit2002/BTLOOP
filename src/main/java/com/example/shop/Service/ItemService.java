@@ -15,4 +15,6 @@ public interface ItemService {
 
     public List<Item> getAllItemWithCategory(Long idCategory);
     public List<Item> getAll();
+
+//    public boolean updateItem(List<Item> items);
 }

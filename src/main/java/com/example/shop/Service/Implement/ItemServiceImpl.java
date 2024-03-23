@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -54,5 +55,16 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAll(){
         return itemRepository.getAllItem();
     }
-
+// todo: fix đoạn này chưa được cập nhật count cho từng item;
+//    public boolean updateItem(List<Item> items) {
+//        for (Item item : items) {
+//            Optional<Item> itemRepo = itemRepository.findById(item.getId());
+//            if (item.getCount() <= itemRepo.get().getCount() && itemRepo.get().getCount() > 0) {
+//                long count = itemRepo.get().getCount() - item.getCount();
+//                itemRepo.orElseThrow().setCount(count);
+//                return true;
+//            }
+//            return false;
+//        }
+//    }
 }
