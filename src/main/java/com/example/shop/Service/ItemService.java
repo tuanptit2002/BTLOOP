@@ -1,6 +1,8 @@
 package com.example.shop.Service;
 
 import com.example.shop.Entity.Item;
+import com.example.shop.Entity.NewPair;
+import com.example.shop.Entity.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +19,6 @@ public interface ItemService {
     public List<Item> getAll();
 
 //    public boolean updateItem(List<Item> items);
+
+    public boolean updateCount(List<Pair> idItems);
 }

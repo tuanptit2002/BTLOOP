@@ -1,7 +1,11 @@
 package com.example.shop.Service.Implement;
 
 import com.example.shop.Entity.Item;
+import com.example.shop.Entity.NewPair;
+import com.example.shop.Entity.Pair;
+import com.example.shop.Entity.SizeItem;
 import com.example.shop.Repository.ItemRepository;
+import com.example.shop.Repository.SizeItemRepository;
 import com.example.shop.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,13 +14,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    SizeItemRepository  sizeItemRepository;
 
     @Autowired
     CategoryService categoryService;
@@ -55,16 +61,19 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAll(){
         return itemRepository.getAllItem();
     }
-// todo: fix đoạn này chưa được cập nhật count cho từng item;
-//    public boolean updateItem(List<Item> items) {
-//        for (Item item : items) {
-//            Optional<Item> itemRepo = itemRepository.findById(item.getId());
-//            if (item.getCount() <= itemRepo.get().getCount() && itemRepo.get().getCount() > 0) {
-//                long count = itemRepo.get().getCount() - item.getCount();
-//                itemRepo.orElseThrow().setCount(count);
-//                return true;
-//            }
-//            return false;
-//        }
-//    }
+    public boolean updateCount(List<Pair> idItems){
+        for(Pair item : idItems){
+            Long countItem= itemRepository.getCount(item.getId());
+            if(countItem < item.getCount()){
+                throw new RuntimeException("Khong hop ne");
+            }else{
+                Item item1 = itemRepository.getItemById(item.getId());
+                Long countNew = countItem-item.getCount();
+//                SizeItem item1 =  new SizeItem();
+                item1.setCount(countNew);
+                itemRepository.save(item1);
+            }
+        }
+        return true;
+    }
 }

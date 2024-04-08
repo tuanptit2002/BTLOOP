@@ -4,6 +4,7 @@ import com.example.shop.Entity.Bill;
 import com.example.shop.Repository.BillRepository;
 import com.example.shop.Service.BillService;
 import com.example.shop.Service.CartItemService;
+import com.example.shop.Service.CartService;
 import com.example.shop.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,17 @@ public class BillServiceImpl implements BillService {
     CartItemService cartItemService;
 
     @Autowired
+    CartService  cartService;
+
+    @Autowired
     ItemService itemService;
 
     @Override
     public ResponseEntity<?> create(Bill bill){
         billRepository.save(bill);
+
+        cartService.getAllIdItemInCart(bill.getCart().getId());
         cartItemService.updateStatus(bill.getCart().getId());
-//        itemService.updateItem(bill.getCart().getItems());
         return new ResponseEntity<>("create Bill success", HttpStatus.CREATED);
     }
 }

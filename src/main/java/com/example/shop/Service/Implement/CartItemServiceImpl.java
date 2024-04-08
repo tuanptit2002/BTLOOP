@@ -3,6 +3,7 @@ package com.example.shop.Service.Implement;
 import com.example.shop.Entity.CartItem;
 import com.example.shop.Repository.CartItemRepository;
 import com.example.shop.Service.CartItemService;
+import com.example.shop.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class CartItemServiceImpl implements CartItemService {
     @Autowired
     CartItemRepository cartItemRepository;
 
+
     @Override
     public void create(CartItem item){
         item.setStatus("FALSE");
@@ -27,7 +29,7 @@ public class CartItemServiceImpl implements CartItemService {
     public void updateStatus(Long idCart){
         List<CartItem> items = cartItemRepository.getCartItemsByIdCart(idCart);
         for (CartItem item : items){
-            item.setStatus("FALSE");
+            item.setStatus("TRUE");
             cartItemRepository.save(item);
         }
     }

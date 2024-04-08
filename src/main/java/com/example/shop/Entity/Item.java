@@ -16,8 +16,8 @@ public class Item {
     private String image;
     private Double price;
     private String color;
-//    private String size;
-//    private long count;
+    private String size;
+    private Long count;
 
     @ManyToOne
     private Category category;
@@ -25,7 +25,7 @@ public class Item {
     private Discount discount;
     @ManyToOne
     private DescriptionItem descriptionItem;
-    @ManyToMany(mappedBy ="items")
-    private List<Size> size;
+//    @ManyToMany(mappedBy ="items")
+//    private List<Size> size;
 
 }
