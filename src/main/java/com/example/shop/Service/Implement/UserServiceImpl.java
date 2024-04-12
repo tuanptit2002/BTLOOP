@@ -1,7 +1,9 @@
 package com.example.shop.Service.Implement;
 
 import com.example.shop.Entity.Cart;
+import com.example.shop.Entity.Item;
 import com.example.shop.Entity.User;
+import com.example.shop.Repository.ItemRepository;
 import com.example.shop.Repository.UserRepository;
 import com.example.shop.Service.CartService;
 import com.example.shop.Service.UserService;
@@ -9,11 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     CartService cartService;
@@ -34,5 +41,11 @@ public class UserServiceImpl implements UserService {
         Cart cart = new Cart();
         cart.setUser(user1);
         cartService.create(cart);
+    }
+
+    @Override
+    public List<Item> getAllItem(User  user){
+        List<Item> items = itemRepository.getAllItem(user.getId());
+        return items;
     }
 }

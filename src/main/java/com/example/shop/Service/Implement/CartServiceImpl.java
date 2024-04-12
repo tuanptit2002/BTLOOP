@@ -41,8 +41,9 @@ public class CartServiceImpl implements CartService {
             return new ResponseEntity<>("data error", HttpStatus.NOT_ACCEPTABLE);
         }
         for (Item items : cart.getItems()) {
-            Item item = itemService.getById(items.getId());
             CartItem cartItem = new CartItem();
+            cartItem.setCount(items.getCount());
+            Item item = itemService.getById(items.getId());
             cartItem.setCart(cart1);
             cartItem.setItem(item);
             cartItemService.create(cartItem);

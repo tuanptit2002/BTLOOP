@@ -4,6 +4,7 @@ import com.example.shop.DTO.CartDTO;
 import com.example.shop.DTO.ItemDTO;
 import com.example.shop.Entity.Cart;
 import com.example.shop.Entity.Item;
+import com.example.shop.Service.CartItemService;
 import com.example.shop.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,16 @@ public class CartController {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    CartItemService  cartItemService;
+
     @PostMapping("/add/items")
     public ResponseEntity<?> addItemWithCart(@RequestBody CartDTO cartDTO) {
         return cartService.addItemWithCart(mapperCart(cartDTO));
+    }
+    @DeleteMapping("/delete/item/{idItem}")
+    public ResponseEntity<?> deleteItem(@PathVariable Long idItem){
+        return cartItemService.deleteItem(idItem);
     }
 
     @PostMapping("/buy/all/{idCart}")
