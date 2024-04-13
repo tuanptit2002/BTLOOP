@@ -14,10 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +40,11 @@ public class UserController {
         return new ResponseEntity<>("create user success", HttpStatus.CREATED);
     }
 
+    @PostMapping("/get/user/email")
+    public ResponseEntity<User> getUserByEmail(@RequestBody UserDTO  userDTO){
+        User user = userService.getUserByEmail(userDTO.getEmail());
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest user) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());

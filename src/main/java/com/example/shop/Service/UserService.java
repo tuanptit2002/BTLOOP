@@ -16,4 +16,6 @@ public interface UserService {
     public void createUser(User user);
 
     public List<Item> getAllItem(User  user);
+
+    public User  getUserByEmail(String email);
 }
