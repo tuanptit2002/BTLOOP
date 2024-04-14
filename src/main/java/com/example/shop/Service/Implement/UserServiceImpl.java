@@ -3,6 +3,7 @@ package com.example.shop.Service.Implement;
 import com.example.shop.Entity.Cart;
 import com.example.shop.Entity.Item;
 import com.example.shop.Entity.User;
+import com.example.shop.Repository.CartItemRepository;
 import com.example.shop.Repository.ItemRepository;
 import com.example.shop.Repository.UserRepository;
 import com.example.shop.Service.CartService;
@@ -21,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    CartItemRepository cartItemRepository;
 
     @Autowired
     CartService cartService;
@@ -46,6 +50,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Item> getAllItem(User  user){
         List<Item> items = itemRepository.getAllItem(user.getId());
+        for(Item item : items){
+            Long count  = cartItemRepository.getCount(item.getId());
+            item.setCount(count);
+        }
         return items;
     }
     @Override

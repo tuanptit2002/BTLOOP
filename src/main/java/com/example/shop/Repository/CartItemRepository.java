@@ -19,4 +19,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     @Query(value = "select * from cart_item as ci where ci.item_id = :id and ci.status ='FALSE'", nativeQuery = true)
     CartItem getCartItemsByIdItem(@Param("id") Long id);
+
+    @Query(value = "select ci.count from  Cart_Item as ci where ci.item_id = :idItem", nativeQuery = true)
+    Long getCount(@Param("idItem") Long idItem);
 }
